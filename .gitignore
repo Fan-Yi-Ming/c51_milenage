@@ -1,5 +1,4 @@
-# 忽略所有名为 'Project' 的文件夹
-Project/
-
-# 但不忽略 'Project' 文件夹中的 .uvprojx 文件
+# 只忽略 Project 目录下的特定内容，而不是整个目录
+Project/*
 !Project/*.uvproj
+!Project/*.uvprojx
