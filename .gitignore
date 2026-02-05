@@ -2,4 +2,4 @@
 Project/
 
 # 但不忽略 'Project' 文件夹中的 .uvprojx 文件
-!Project/*.uvprojx
+!Project/*.uvproj
