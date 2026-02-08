@@ -248,9 +248,7 @@ static void uartRingBuffer_execute(uint8_t *buffer)
     uint8_t aes_result[16];
 
     uint8_t milenage_result;
-    uint16_t milenage_dataLen;
     uint8_t milenage_data[40];
-    uint8_t temp[2];
 
     switch (cmd)
     {
@@ -291,31 +289,21 @@ static void uartRingBuffer_execute(uint8_t *buffer)
         P45 = 0;
         if (milenage_result == 0)
         {
-            milenage_dataLen = 40;
             memcpy(milenage_data, getRES(), 8);
             memcpy(milenage_data + 8, getCK(), 16);
             memcpy(milenage_data + 24, getIK(), 16);
-            temp[0] = milenage_dataLen >> 8;
-            temp[1] = milenage_dataLen & 0xFF;
-            uartRingBuffer_sendFrame(cmd, 2, temp);
-            uartRingBuffer_sendFrame(cmd + milenage_result, milenage_dataLen, milenage_data);
+            uartRingBuffer_sendFrame(cmd + milenage_result, 40, milenage_data);
         }
         else if (milenage_result == 2)
         {
-            milenage_dataLen = 14;
+            memset(milenage_data, 0x00, 40);
             memcpy(milenage_data, getAUTS(), 14);
-            temp[0] = milenage_dataLen >> 8;
-            temp[1] = milenage_dataLen & 0xFF;
-            uartRingBuffer_sendFrame(cmd, 2, temp);
-            uartRingBuffer_sendFrame(cmd + milenage_result, milenage_dataLen, milenage_data);
+            uartRingBuffer_sendFrame(cmd + milenage_result, 40, milenage_data);
         }
         else if (milenage_result == 1)
         {
-            milenage_dataLen = 0;
-            temp[0] = milenage_dataLen >> 8;
-            temp[1] = milenage_dataLen & 0xFF;
-            uartRingBuffer_sendFrame(cmd, 2, temp);
-            uartRingBuffer_sendFrame(cmd + milenage_result, milenage_dataLen, milenage_data);
+            memset(milenage_data, 0x00, 40);
+            uartRingBuffer_sendFrame(cmd + milenage_result, 40, milenage_data);
         }
         break;
 
