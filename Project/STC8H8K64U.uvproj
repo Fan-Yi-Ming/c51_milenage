@@ -448,9 +448,6 @@
             </File>
           </Files>
         </Group>
-        <Group>
-          <GroupName>Peripheral</GroupName>
-        </Group>
       </Groups>
     </Target>
   </Targets>

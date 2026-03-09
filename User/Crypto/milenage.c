@@ -1,5 +1,6 @@
 #include "tools.h"
 #include "aes.h"
+#include "milenage.h"
 
 code uint8_t r1 = 64;
 code uint8_t r2 = 0;
@@ -404,13 +405,13 @@ uint8_t kernel()
     // final check
     if (checkMAC_A_result == 0)
     {
-        return 1; // MAC_A错误
+        return AUTH_MAC_ERROR; // MAC_A验证失败
     }
     if (checkSQN_result == 0)
     {
         computeAUTS();
         increaseSQN();
-        return 2; // SQN错误
+        return AUTH_SQN_ERROR; // SQN验证失败（触发重同步）
     }
     else
     {
@@ -471,7 +472,7 @@ uint8_t kernel()
     }
 
     increaseSQN();
-    return 0;
+    return AUTH_SUCCESS; // 认证成功
 }
 
 uint8_t execute_OPc()

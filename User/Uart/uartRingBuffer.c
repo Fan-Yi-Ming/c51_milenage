@@ -287,20 +287,20 @@ static void uartRingBuffer_execute(uint8_t *buffer)
         P45 = 1;
         milenage_result = execute_OPc();
         P45 = 0;
-        if (milenage_result == 0)
+        if (milenage_result == AUTH_SUCCESS)
         {
             memcpy(milenage_data, getRES(), 8);
             memcpy(milenage_data + 8, getCK(), 16);
             memcpy(milenage_data + 24, getIK(), 16);
             uartRingBuffer_sendFrame(cmd + milenage_result, 40, milenage_data);
         }
-        else if (milenage_result == 2)
+        else if (milenage_result == AUTH_SQN_ERROR)
         {
             memset(milenage_data, 0x00, 40);
             memcpy(milenage_data, getAUTS(), 14);
             uartRingBuffer_sendFrame(cmd + milenage_result, 40, milenage_data);
         }
-        else if (milenage_result == 1)
+        else if (milenage_result == AUTH_MAC_ERROR)
         {
             memset(milenage_data, 0x00, 40);
             uartRingBuffer_sendFrame(cmd + milenage_result, 40, milenage_data);

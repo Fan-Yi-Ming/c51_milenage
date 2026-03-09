@@ -3,6 +3,10 @@
 
 #include "tools.h"
 
+#define AUTH_SUCCESS 0   // 认证成功
+#define AUTH_MAC_ERROR 1 // MAC_A验证失败
+#define AUTH_SQN_ERROR 2 // SQN验证失败（触发重同步
+
 void computeK();
 
 void setRAND(uint8_t *rand);
